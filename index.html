@@ -74,15 +74,35 @@
       }
 
       document.getElementById('resultado').textContent = resultado;
+
+      // Salvar no localStorage
+      localStorage.setItem('num1', num1);
+      localStorage.setItem('num2', num2);
+      localStorage.setItem('operacao', operacao);
+      localStorage.setItem('resultado', resultado);
     }
-    
-    if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('Service Worker registrado', reg))
-      .catch(err => console.log('Erro ao registrar o Service Worker', err));
-  });
-}
+
+    function carregarDados() {
+      const num1 = localStorage.getItem('num1');
+      const num2 = localStorage.getItem('num2');
+      const operacao = localStorage.getItem('operacao');
+      const resultado = localStorage.getItem('resultado');
+
+      if (num1 !== null) document.getElementById('num1').value = num1;
+      if (num2 !== null) document.getElementById('num2').value = num2;
+      if (operacao !== null) document.getElementById('operacao').value = operacao;
+      if (resultado !== null) document.getElementById('resultado').textContent = resultado;
+    }
+
+    window.addEventListener('load', () => {
+      carregarDados();
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker registrado', reg))
+          .catch(err => console.log('Erro ao registrar o Service Worker', err));
+      }
+    });
   </script>
 </body>
 </html>
