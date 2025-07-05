@@ -345,12 +345,7 @@
     }
 
     function openAdminPanel() {
-      const password = prompt("Digite a senha administrativa:");
-      if (password === "0000") {
-        showAdminOptions();
-      } else {
-        alert("Senha incorreta!");
-      }
+      showAdminOptions();
     }
 
     async function showAdminOptions() {
@@ -364,7 +359,7 @@
         }
       } else if (action === "2") {
         const data = await getAllData();
-        let options = "Escolha um aniversariante para deleted:\n";
+        let options = "Escolha um aniversariante para deletar:\n";
         data.forEach((item, index) => {
           options += `${index + 1}. ${item.nome} (${item.data})\n`;
         });
@@ -482,4 +477,4 @@
     };
   </script>
 </body>
-</html>
+  </html>
