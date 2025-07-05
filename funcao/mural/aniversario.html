@@ -30,14 +30,6 @@
       text-align: center;
     }
 
-    h2 {
-      color: #2d3748;
-      font-size: 1.8rem;
-      font-weight: 500;
-      margin: 20px 0;
-      text-align: center;
-    }
-
     .container {
       width: 100%;
       max-width: 1000px;
@@ -128,35 +120,8 @@
       z-index: 1000;
     }
 
-    .lunar-calendar {
-      width: 100%;
-      max-width: 1000px;
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    .lunar-calendar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .lunar-calendar li {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #e2e8f0;
-      color: #4a5568;
-    }
-
-    .lunar-calendar li:last-child {
-      border-bottom: none;
-    }
-
     @media (max-width: 600px) {
-      .container, .lunar-calendar {
+      .container {
         padding: 15px;
       }
 
@@ -202,10 +167,6 @@
       h1 {
         font-size: 1.8rem;
       }
-
-      h2 {
-        font-size: 1.5rem;
-      }
     }
   </style>
 </head>
@@ -236,10 +197,6 @@
       </thead>
       <tbody></tbody>
     </table>
-  </div>
-  <h2>Calendário Lunar</h2>
-  <div class="lunar-calendar" id="lunarCalendar">
-    <ul id="lunarPhases"></ul>
   </div>
   <button class="admin-btn" onclick="openAdminPanel()">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
@@ -361,8 +318,8 @@
         tr.innerHTML = `
           <td data-label="Nome">${item.nome}</td>
           <td data-label="Data de Nascimento">${item.data}</td>
-          <td data-label="Signo">${zodiacSign}</td>
-          <td data-label="Dias para o Próximo Aniversário">${daysUntilNext}</td>
+          <td data-label="Signos Astrologicos">${zodiacSign}</td>
+          <td data-label="Próximo Aniversário">${daysUntilNext}</td>
           <td data-label="Dias Vividos">${daysLived}</td>
           <td data-label="Idade Atual">${currentAge}</td>
         `;
@@ -387,46 +344,6 @@
       return upcoming[0]?.index ?? -1;
     }
 
-    function renderLunarCalendar() {
-      const lunarPhasesList = document.getElementById("lunarPhases");
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = today.getMonth();
-      const monthName = today.toLocaleString('pt-BR', { month: 'long' });
-      lunarPhasesList.innerHTML = `<li><strong>Fases da Lua em ${monthName} ${year}</strong></li>`;
-
-      const lunarCycle = 29.530588; // Ciclo sinódico médio da Lua em dias
-      const knownNewMoon = new Date(Date.UTC(2025, 0, 6, 12, 0, 0)); // Lua Nova em 6 de Jan de 2025 (UTC)
-
-      const daysSinceKnownNewMoon = (today.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
-      const currentCyclePosition = daysSinceKnownNewMoon % lunarCycle;
-
-      let lastNewMoon = new Date(knownNewMoon.getTime());
-      lastNewMoon.setDate(knownNewMoon.getDate() - Math.floor(daysSinceKnownNewMoon / lunarCycle) * lunarCycle);
-
-      const phases = [
-        { name: "Lua Nova", offset: 0 },
-        { name: "Quarto Crescente", offset: lunarCycle / 4 },
-        { name: "Lua Cheia", offset: lunarCycle / 2 },
-        { name: "Quarto Minguante", offset: 3 * lunarCycle / 4 }
-      ];
-
-      const currentMonthStart = new Date(year, month, 1);
-      const currentMonthEnd = new Date(year, month + 1, 0);
-
-      phases.forEach(phase => {
-        let phaseDate = new Date(lastNewMoon.getTime() + phase.offset * 24 * 60 * 60 * 1000);
-        while (phaseDate < currentMonthStart) {
-          phaseDate = new Date(phaseDate.getTime() + lunarCycle * 24 * 60 * 60 * 1000);
-        }
-        while (phaseDate <= currentMonthEnd) {
-          const formattedDate = phaseDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-          lunarPhasesList.innerHTML += `<li>${phase.name}: ${formattedDate}</li>`;
-          phaseDate = new Date(phaseDate.getTime() + lunarCycle * 24 * 60 * 60 * 1000);
-        }
-      });
-    }
-
     function openAdminPanel() {
       const password = prompt("Digite a senha administrativa:");
       if (password === "0000") {
@@ -447,7 +364,7 @@
         }
       } else if (action === "2") {
         const data = await getAllData();
-        let options = "Escolha um aniversariante para deletar:\n";
+        let options = "Escolha um aniversariante para deleted:\n";
         data.forEach((item, index) => {
           options += `${index + 1}. ${item.nome} (${item.data})\n`;
         });
@@ -562,8 +479,7 @@
 
     window.onload = () => {
       renderTable();
-      renderLunarCalendar();
     };
   </script>
 </body>
-</html>
+  </html>
