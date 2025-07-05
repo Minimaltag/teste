@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
       /* Global Reset */
       * {
@@ -74,41 +75,89 @@
       /* Filter Section */
       .filter-container {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
         margin-bottom: 1rem;
       }
 
+      .filter-group {
+        display: flex;
+        align-items: center;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 220px;
+      }
+
+      .filter-group input[type="month"] {
+        border: none;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: none;
+        transition: border-color 0.2s ease;
+      }
+
+      .filter-group input[type="month"]:focus {
+        outline: none;
+      }
+
+      .filter-group button {
+        border: none;
+        border-radius: 0 4px 4px 0;
+        padding: 0;
+        width: 40px;
+        height: 36px;
+        background-color: #0077cc;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .filter-group button:hover:not(:disabled) {
+        background-color: #005f99;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+
       /* Inputs */
-      input[type="text"],
-      input[type="month"],
-      input[type="date"] {
+      input[type="text"] {
         padding: 0.5rem;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
         font-size: 0.9rem;
         width: 100%;
-        max-width: 180px;
+        max-width: 220px;
         transition: border-color 0.2s ease;
       }
 
-      input[type="text"]:focus,
-      input[type="month"]:focus,
-      input[type="date"]:focus {
+      input[type="text"]:focus {
         border-color: #0077cc;
         outline: none;
       }
 
       /* Buttons */
       button {
-        padding: 0.5rem 1rem;
+        width: 40px;
+        height: 40px;
         border: none;
-        border-radius: 4px;
-        font-size: 0.9rem;
-        font-weight: 500;
+        border-radius: 50%;
+        font-size: 1.2rem;
         cursor: pointer;
         background-color: #0077cc;
         color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: background-color 0.2s ease;
       }
 
@@ -126,7 +175,6 @@
 
       button.edit-btn {
         background-color: #0077cc;
-        margin-right: 0.25rem;
       }
 
       button.delete-btn {
@@ -157,6 +205,7 @@
         border-radius: 8px;
         padding: 1rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+_convert_to_html_end
         transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
 
@@ -236,6 +285,7 @@
       .edit-form button {
         width: 48%;
         margin-top: 0.5rem;
+        border-radius: 4px;
       }
 
       .edit-form button[type="button"] {
@@ -257,14 +307,23 @@
           flex-direction: column;
         }
 
-        input[type="text"],
-        input[type="month"],
-        input[type="date"] {
+        .filter-group,
+        input[type="text"] {
           max-width: none;
         }
 
+        .button-group {
+          flex-wrap: wrap;
+        }
+
         button {
-          width: 100%;
+          width: 36px;
+          height: 36px;
+          font-size: 1.1rem;
+        }
+
+        .filter-group button {
+          height: 34px;
         }
 
         #fichasContainer {
@@ -288,6 +347,16 @@
         .ficha-card {
           padding: 0.75rem;
         }
+
+        button {
+          width: 32px;
+          height: 32px;
+          font-size: 1rem;
+        }
+
+        .filter-group button {
+          height: 30px;
+        }
       }
     </style>
   </head>
@@ -308,19 +377,31 @@
     <main>
       <div class="fichas-section">
         <div class="filter-container">
-          <input type="month" id="filtroMes" aria-label="Filtrar fichas por mês" />
-          <button onclick="filtrarPorMes()" aria-label="Aplicar filtro por mês">Filtrar por Mês</button>
-          <button onclick="gerarPDF()" aria-label="Gerar relatório em PDF">Gerar PDF</button>
-          <button class="admin-btn" onclick="toggleAdminMode()" aria-label="Ativar ou desativar modo administrativo">Ativar Modo Administrativo</button>
-          <button class="refresh-btn" id="refreshBtn" onclick="atualizarDados()" aria-label="Atualizar dados do Firebase">Atualizar</button>
+          <div class="filter-group">
+            <input type="month" id="filtroMes" aria-label="Filtrar fichas por mês" />
+            <button onclick="filtrarPorMes()" aria-label="Aplicar filtro por mês">
+              <i class="fas fa-filter"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            id="buscaInput"
+            placeholder="Buscar ficha..."
+            onkeyup="filtrarTabela()"
+            aria-label="Buscar fichas por texto"
+          />
+          <div class="button-group">
+            <button onclick="gerarPDF()" aria-label="Gerar relatório em PDF">
+              <i class="fas fa-file-pdf"></i>
+            </button>
+            <button class="admin-btn" onclick="toggleAdminMode()" aria-label="Ativar ou desativar modo administrativo">
+              <i class="fas fa-user-shield"></i>
+            </button>
+            <button class="refresh-btn" id="refreshBtn" onclick="atualizarDados()" aria-label="Atualizar dados do Firebase">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
         </div>
-        <input
-          type="text"
-          id="buscaInput"
-          placeholder="Buscar ficha..."
-          onkeyup="filtrarTabela()"
-          aria-label="Buscar fichas por texto"
-        />
         <div id="fichasContainer"></div>
       </div>
       <div class="edit-overlay" id="editOverlay" role="dialog" aria-modal="true" aria-label="Formulário de edição de ficha">
@@ -452,8 +533,12 @@
             <div><strong>Responsável:</strong> ${(ficha.responsavel || []).join(', ')}</div>
             <div><strong>Observação:</strong> ${ficha.observacao || '-'}</div>
             <div class="actions" ${isAdminMode ? '' : 'aria-hidden="true"'}>
-              <button class="edit-btn" onclick="abrirEditForm('${ficha.id}')" aria-label="Editar ficha com ID ${ficha.id}">Editar</button>
-              <button class="delete-btn" onclick="excluirFicha('${ficha.id}')" aria-label="Excluir ficha com ID ${ficha.id}">Excluir</button>
+              <button class="edit-btn" onclick="abrirEditForm('${ficha.id}')" aria-label="Editar ficha com ID ${ficha.id}">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-btn" onclick="excluirFicha('${ficha.id}')" aria-label="Excluir ficha com ID ${ficha.id}">
+                <i class="fas fa-trash"></i>
+              </button>
             </div>
           `;
           container.appendChild(card);
@@ -465,7 +550,7 @@
         if (password === '0000') {
           isAdminMode = !isAdminMode;
           const adminBtn = document.querySelector('.admin-btn');
-          adminBtn.textContent = isAdminMode ? 'Desativar Modo Administrativo' : 'Ativar Modo Administrativo';
+          adminBtn.innerHTML = isAdminMode ? '<i class="fas fa-user-shield"></i>' : '<i class="fas fa-user-shield"></i>';
           adminBtn.classList.toggle('active', isAdminMode);
           exibirFichas(fichasCache);
         } else {
@@ -577,4 +662,4 @@
       carregarFichas();
     </script>
   </body>
-</html>
+                </html>
