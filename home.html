@@ -40,11 +40,13 @@
       width: 100%;
       max-width: 300px;
       margin: 0.5rem auto;
+      border-width: 2px;
+      border-color: #ea580c;
     }
 
     .action-button:hover {
       transform: translateY(-2px);
-      background: #2563eb;
+      background: #fb923c !important;
     }
 
     input[type="number"]::-webkit-inner-spin-button,
@@ -55,6 +57,19 @@
 
     input[type="number"] {
       -moz-appearance: textfield;
+    }
+
+    .modal-bg {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .titulo-com-contorno {
+      color: #f97316;
+      text-shadow: 2px 2px 0 #fff;
+    }
+
+    .italico {
+      font-style: italic;
     }
   </style>
 </head>
@@ -75,27 +90,49 @@
   <!-- Header fixo -->
   <header class="header-bg text-white py-2 w-full fixed top-0 left-0 z-50 shadow">
     <div class="container mx-auto px-4 text-center">
-      <h1 class="text-3xl font-bold">SEMPDEC</h1>
-      <p class="text-base mt-1">Defesa Civil, Somos Todos nós</p>
+      <h1 class="text-3xl font-bold titulo-com-contorno">SEMPDEC</h1>
+      <p class="text-base mt-1 italico">Defesa Civil, Somos Todos nós</p>
     </div>
   </header>
 
-  <!-- Conteúdo principal com rolagem normal -->
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal-bg">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+      <h2 class="text-xl font-semibold mb-4">Escolha a versão</h2>
+      <div class="flex flex-col gap-4">
+        <button onclick="window.location.href='funcao/cadastro/acaocafa.html'" class="bg-orange-500 hover:bg-orange-600 text-black font-bold py-2 px-4 rounded border-2 border-orange-600">Versão Móvel</button>
+        <button onclick="window.location.href='funcao/cadastro/desktop.html'" class="bg-orange-500 hover:bg-orange-600 text-black font-bold py-2 px-4 rounded border-2 border-orange-600">Versão Desktop</button>
+        <button onclick="fecharModal()" class="text-gray-600 mt-2 hover:underline">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
   <main class="flex-grow flex flex-col justify-start items-center w-full overflow-y-auto">
     <section class="flex flex-col items-center gap-4 w-full max-w-md px-4 mt-10">
-      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/cadastro/acaocafa.html'">CADASTROS DE FAMILIAS</button>
-      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/relatorio/acaoreac.html'">REGISTRO DE AÇÕES</button>
-      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/mural/medicao.html'">ESCALA DE MEDIÇÃO</button>
-      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/mural/aniversario.html'">ANIVERSARIANTES</button>
-      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='https://pmcareiro.infortread.com.br/contracheque/login'">CONTRACHEQUE</button>
-      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='https://diariomunicipalaam.org.br/visualizar-publicacao/241210145814496471/EHWSWVZUH'">FERIADOS MUNICIPAL</button>
+      <button class="action-button bg-orange-500 text-black font-bold py-2 px-4 rounded shadow hover:bg-orange-600" onclick="abrirModal()">CADASTROS DE FAMILIAS</button>
+      <button class="action-button bg-orange-500 text-black font-bold py-2 px-4 rounded shadow hover:bg-orange-600" onclick="window.location.href='funcao/relatorio/acaoreac.html'">REGISTRO DE AÇÕES</button>
+      <button class="action-button bg-orange-500 text-black font-bold py-2 px-4 rounded shadow hover:bg-orange-600" onclick="window.location.href='funcao/mural/medicao.html'">ESCALA DE MEDIÇÃO</button>
+      <button class="action-button bg-orange-500 text-black font-bold py-2 px-4 rounded shadow hover:bg-orange-600" onclick="window.location.href='funcao/mural/aniversario.html'">ANIVERSARIANTES</button>
+      <button class="action-button bg-orange-500 text-black font-bold py-2 px-4 rounded shadow hover:bg-orange-600" onclick="window.location.href='https://pmcareiro.infortread.com.br/contracheque/login'">CONTRACHEQUE</button>
+      <button class="action-button bg-orange-500 text-black font-bold py-2 px-4 rounded shadow hover:bg-orange-600" onclick="window.location.href='https://diariomunicipalaam.org.br/visualizar-publicacao/241210145814496471/EHWSWVZUH'">FERIADOS MUNICIPAL</button>
     </section>
   </main>
 
   <!-- Rodapé fixo -->
-  <footer class="bg-blue-900 text-white text-center py-3 w-full fixed bottom-0 left-0 z-50 shadow-inner">
+  <footer class="bg-blue-900 text-white text-center py-3 w-full fixed bottom-0 left-0 z-50 shadow-inner italico">
     © 2025 Desenvolvido por Darlan Cardoso | V. 3.28.6
   </footer>
 
+  <!-- Scripts -->
+  <script>
+    function abrirModal() {
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function fecharModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+  </script>
 </body>
 </html>
