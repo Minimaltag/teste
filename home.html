@@ -36,18 +36,6 @@
       transform: translateY(-2px);
       background: #2563eb;
     }
-    footer {
-      margin-top: auto;
-      background: #1e3a8a;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
-    main { padding-bottom: 1rem; }
-    .contact-info {
-      font-size: 0.9rem;
-      color: #666;
-    }
     @media (max-width: 640px) {
       body::before {
         background-size: 80%;
@@ -63,7 +51,8 @@
     }
   </style>  
 </head>
-<body>
+<body class="min-h-screen bg-gray-50 pt-20 pb-16 flex flex-col items-center">
+
   <!-- Firebase Auth -->  
   <script type="module">
     import { auth } from './js/firebase-config.js';
@@ -75,32 +64,29 @@
       }
     });
   </script>
-  <!-- Header -->
-  <header class="header-bg text-white py-6">
+
+  <!-- Header fixo -->
+  <header class="header-bg text-white py-2 w-full fixed top-0 left-0 z-50 shadow">
     <div class="container mx-auto px-4 text-center">
       <h1 class="text-3xl font-bold">SEMPDEC</h1>
       <p class="text-base mt-1">Defesa Civil, Somos Todos nós</p>
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="container mx-auto px-4 py-8 flex-grow">
-    <div class="text-center mb-8">
-      <img src="assets/logo.png" alt="Logo SEMPDEC" class="mx-auto w-48 h-48" />
-    </div>  
-
-    <!-- Action Buttons -->
-    <section class="grid grid-cols-1 gap-4">
+  <!-- Conteúdo principal com espaçamento para header e footer -->
+  <main class="flex-grow flex flex-col justify-center items-center w-full">
+    <section class="flex flex-col items-center gap-4 w-full max-w-md px-4">
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/cadastro/acaocafa.html'">CADASTROS DE FAMILIAS</button>
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/relatorio/acaoreac.html'">REGISTRO DE AÇÕES</button>
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/mural/medicao.html'">ESCALA DE MEDIÇÃO</button>
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/mural/aniversario.html'">ANIVERSARIANTES</button>
     </section>
-
-    <!-- Footer -->
-    <footer class="col-span-full text-center text-sm text-gray-500 mt-6 bg-transparent">
-      © 2025 Desenvolvido por Darlan Cardoso | V. 3.28.6
-    </footer>
   </main>
+
+  <!-- Rodapé fixo -->
+  <footer class="bg-blue-900 text-white text-center py-3 w-full fixed bottom-0 left-0 z-50 shadow-inner">
+    © 2025 Desenvolvido por Darlan Cardoso | V. 3.28.6
+  </footer>
+
 </body>
-</html>
+  </html>
