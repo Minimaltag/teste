@@ -18,40 +18,47 @@
       background-image: url('assets/logo.png');
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 40%;
-      opacity: 0.1;
+      background-size: 55%;
+      opacity: 0.3;
       z-index: -1;
     }
+
+    @media (max-width: 640px) {
+      body::before {
+        background-size: 80%;
+      }
+    }
+
     button, a { outline: none; }
+
     .header-bg {
       background: linear-gradient(135deg, #1e3a8a, #3b82f6);
     }
+
     .action-button {
       transition: all 0.2s ease;
       width: 100%;
       max-width: 300px;
       margin: 0.5rem auto;
     }
+
     .action-button:hover {
       transform: translateY(-2px);
       background: #2563eb;
     }
-    @media (max-width: 640px) {
-      body::before {
-        background-size: 80%;
-      }
-    }
+
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
+
     input[type="number"] {
       -moz-appearance: textfield;
     }
-  </style>  
+  </style>
 </head>
-<body class="min-h-screen bg-gray-50 pt-20 pb-16 flex flex-col items-center">
+<body class="min-h-screen bg-gray-50 pt-20 pb-16 flex flex-col items-center overflow-y-auto">
 
   <!-- Firebase Auth -->  
   <script type="module">
@@ -73,13 +80,15 @@
     </div>
   </header>
 
-  <!-- Conteúdo principal com espaçamento para header e footer -->
-  <main class="flex-grow flex flex-col justify-center items-center w-full">
-    <section class="flex flex-col items-center gap-4 w-full max-w-md px-4">
+  <!-- Conteúdo principal com rolagem normal -->
+  <main class="flex-grow flex flex-col justify-start items-center w-full overflow-y-auto">
+    <section class="flex flex-col items-center gap-4 w-full max-w-md px-4 mt-10">
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/cadastro/acaocafa.html'">CADASTROS DE FAMILIAS</button>
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/relatorio/acaoreac.html'">REGISTRO DE AÇÕES</button>
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/mural/medicao.html'">ESCALA DE MEDIÇÃO</button>
       <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='funcao/mural/aniversario.html'">ANIVERSARIANTES</button>
+      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='https://pmcareiro.infortread.com.br/contracheque/login'">CONTRACHEQUE</button>
+      <button class="action-button bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700" onclick="window.location.href='https://diariomunicipalaam.org.br/visualizar-publicacao/241210145814496471/EHWSWVZUH'">FERIADOS MUNICIPAL</button>
     </section>
   </main>
 
@@ -89,4 +98,4 @@
   </footer>
 
 </body>
-  </html>
+</html>
